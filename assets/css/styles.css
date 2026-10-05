@@ -1,0 +1,184 @@
+/* Custom Styles & Animations */
+body {
+    background-color: #0A0A0A;
+    color: #E5E5E5;
+}
+
+/* Keep anchored sections clear of the fixed navbar */
+section[id], footer[id] { scroll-margin-top: 4rem; }
+
+.hero-bg {
+    background-image: url('../img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect */
+}
+
+/* Fixed backgrounds are broken on mobile Safari, and phones don't need 2400px */
+@media (max-width: 768px) {
+    .hero-bg {
+        background-image: url('../img/hero-mobile.jpg');
+        background-attachment: scroll;
+    }
+}
+
+.hero-overlay {
+    background: linear-gradient(to right, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.5));
+}
+
+.category-card {
+    overflow: hidden;
+    position: relative;
+}
+
+.category-card img {
+    transition: transform 0.7s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.05);
+}
+
+.category-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.category-card:hover .category-overlay {
+    opacity: 0.95;
+}
+
+/* Modal transitions */
+.modal-enter {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease-out;
+}
+.modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+}
+.modal-leave {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.2s ease-in;
+}
+.modal-leave-active {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+/* ---------- Partners slider (moves left → right, loops forever) ---------- */
+.partners-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.partners-track {
+    display: flex;
+    width: max-content;
+    animation: partners-scroll var(--marquee-duration, 80s) linear infinite;
+}
+
+.partners-marquee:hover .partners-track {
+    animation-play-state: paused;
+}
+
+/* The track holds the logo list twice; shifting by half makes the loop seamless */
+@keyframes partners-scroll {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+}
+
+.partner-logo {
+    flex: none;
+    width: 11rem;
+    height: 6rem;
+    margin: 0 0.75rem;
+    padding: 0.85rem 1.1rem;
+    background: #fff;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.partner-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .partners-track { animation: none; }
+    .partners-marquee { overflow-x: auto; }
+}
+
+/* ---------- Map ---------- */
+/* Invert + hue-rotate turns Google's light map dark while keeping the red pin red */
+.map-embed {
+    filter: invert(90%) hue-rotate(180deg) saturate(0.8) brightness(0.95);
+}
+
+/* ---------- Gallery ---------- */
+/* Uniform tiles, filled row by row, so "load more" never reshuffles what's already shown.
+   The lightbox shows each photo uncropped. */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+@media (min-width: 768px)  { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+@media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.gallery-item {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    position: relative;
+    background: #1a1a1a;
+    cursor: zoom-in;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.gallery-item img.loaded { opacity: 1; }
+.gallery-item:hover img { transform: scale(1.04); }
+
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 0 #C8102E;
+    transition: box-shadow 0.3s ease;
+    pointer-events: none;
+}
+.gallery-item:hover::after,
+.gallery-item:focus-visible::after { box-shadow: inset 0 0 0 2px #C8102E; }
+
+.gallery-tab[aria-selected="true"] {
+    color: #fff;
+    border-color: #C8102E;
+    background: #C8102E;
+}
+
+.tabs-scroll { scrollbar-width: none; }
+.tabs-scroll::-webkit-scrollbar { display: none; }
+
+/* Lightbox */
+#lightbox img {
+    max-height: calc(100vh - 8rem);
+    max-width: 100%;
+    object-fit: contain;
+    transition: opacity 0.25s ease;
+}
