@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>გალერეა | ფარდის სახლი</title>
+    <meta name="description" content="ფარდის სახლის ნამუშევრები: ფარდები, გადასაფარებლები, ჟალუზები, ბალიშები, აქსესუარები და კარნიზები.">
+
+    <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <meta name="theme-color" content="#0A0A0A">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;600&family=Noto+Serif+Georgian:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="antialiased font-sans selection:bg-brand-red selection:text-white bg-rich-black text-gray-200">
+
+    <!-- Navigation -->
+    <nav id="navbar" data-solid class="fixed w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 text-white bg-matte-black min-[1440px]:px-[3.75rem]">
+        <div class="max-w-7xl min-[1440px]:max-w-[100rem] mx-auto flex justify-between items-center">
+            <a href="index.html" class="block hover:opacity-90 transition-opacity duration-300">
+                <img src="assets/img/logo.png"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+                     alt="ფარდის სახლი"
+                     class="h-12 md:h-16 min-[1440px]:h-20 w-auto object-contain">
+                <span style="display:none;" class="text-2xl md:text-3xl font-serif text-brand-red tracking-wider drop-shadow-md">
+                    ფარდის სახლი
+                </span>
+            </a>
+
+            <div class="hidden xl:flex space-x-8 min-[1440px]:space-x-10 items-center text-sm min-[1440px]:text-[1.09rem] font-light tracking-wide uppercase whitespace-nowrap">
+                <a href="index.html#about" class="hover:text-brand-red transition-colors">ჩვენს შესახებ</a>
+                <a href="index.html#collections" class="hover:text-brand-red transition-colors">კოლექციები</a>
+                <a href="gallery.html" class="text-brand-red">გალერეა</a>
+                <a href="index.html#partners" class="hover:text-brand-red transition-colors">პარტნიორები</a>
+                <a href="#contact" class="hover:text-brand-red transition-colors">კონტაქტი</a>
+                <button onclick="openModal()" class="border border-brand-red bg-brand-red text-white hover:bg-brand-red-light hover:border-brand-red-light px-6 py-2 min-[1440px]:px-[1.875rem] min-[1440px]:py-2.5 transition-colors duration-300">
+                    კონსულტაცია
+                </button>
+            </div>
+
+            <button class="xl:hidden text-brand-red focus:outline-none" onclick="toggleMobileMenu()" aria-label="მენიუ">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-matte-black hidden flex-col border-t border-gray-800 text-center py-4">
+            <a href="index.html#about" class="py-3 text-gray-300 hover:text-brand-red transition-colors">ჩვენს შესახებ</a>
+            <a href="index.html#collections" class="py-3 text-gray-300 hover:text-brand-red transition-colors">კოლექციები</a>
+            <a href="gallery.html" class="py-3 text-brand-red">გალერეა</a>
+            <a href="index.html#partners" class="py-3 text-gray-300 hover:text-brand-red transition-colors">პარტნიორები</a>
+            <a href="#contact" class="py-3 text-gray-300 hover:text-brand-red transition-colors" onclick="toggleMobileMenu()">კონტაქტი</a>
+            <button onclick="openModal(); toggleMobileMenu();" class="mt-4 mx-auto border border-brand-red bg-brand-red text-white hover:bg-brand-red-light hover:border-brand-red-light px-8 py-2 transition-colors">
+                კონსულტაცია
+            </button>
+        </div>
+    </nav>
+
+    <main class="pt-28 md:pt-36 min-[1440px]:pt-44 pb-24 px-6 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <!-- Heading -->
+            <div class="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-10">
+                <div>
+                    <p class="text-brand-red tracking-[0.2em] uppercase text-xs mb-3 font-semibold">გალერეა · <span id="galleryCount"></span></p>
+                    <h1 id="galleryTitle" class="text-3xl md:text-5xl font-serif text-white mb-4">გალერეა</h1>
+                    <div class="w-16 h-[2px] bg-brand-red"></div>
+                </div>
+                <p id="galleryDesc" class="text-gray-400 font-light max-w-md md:text-right"></p>
+            </div>
+
+            <!-- Category tabs -->
+            <div class="sticky top-[80px] md:top-[96px] min-[1440px]:top-[112px] z-30 bg-rich-black/95 backdrop-blur py-4 -mx-6 px-6 mb-8 border-b border-gray-900">
+                <div id="galleryTabs" role="tablist" class="tabs-scroll flex gap-3 overflow-x-auto"></div>
+            </div>
+
+            <!-- Photos -->
+            <div id="galleryGrid" class="gallery-grid"></div>
+
+            <div class="text-center mt-12">
+                <button id="loadMore" type="button" class="hidden border border-brand-red text-brand-red hover:bg-brand-red hover:text-white px-10 py-3 font-light tracking-wide uppercase text-sm transition-colors duration-300">
+                    მეტის ნახვა <span class="opacity-70"></span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- CTA -->
+    <section class="py-20 bg-matte-black text-white border-y border-gray-900">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-2xl md:text-4xl font-serif leading-tight mb-6">მოგეწონათ? შევქმნათ მსგავსი თქვენთვისაც.</h2>
+            <p class="text-gray-400 font-light mb-8">დიზაინერი უფასოდ მოვა, აიღებს ზომებს და შემოგთავაზებთ ქსოვილებს ადგილზე.</p>
+            <button onclick="openModal()" class="bg-brand-red text-white px-10 py-4 font-light tracking-wide uppercase hover:bg-brand-red-light transition-colors duration-300">
+                გამოიძახე დიზაინერი
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-[#111111] text-gray-400 py-16 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8 text-sm font-light">
+            <div>
+                <img src="assets/img/logo.png" alt="ფარდის სახლი" class="w-[300px] max-w-full h-16 object-cover object-[center_44%] mb-4">
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=%E1%83%A4%E1%83%90%E1%83%A0%E1%83%93%E1%83%98%E1%83%A1+%E1%83%A1%E1%83%90%E1%83%AE%E1%83%9A%E1%83%98,+12+Sulkhan+Tsintsadze+St,+Tbilisi" target="_blank" rel="noopener" class="hover:text-white transition-colors">სულხან ცინცაძის ქ. 12, თბილისი</a>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="tel:+995322432002" class="hover:text-white transition-colors">0322 43 20 02</a>
+                <a href="tel:+995599932454" class="hover:text-white transition-colors">599 93 24 54</a>
+            </div>
+            <div class="flex flex-col gap-2">
+                <span>ორშ - პარ: 10:00 - 19:00</span>
+                <span>შაბ - კვი: 11:00 - 18:00</span>
+            </div>
+        </div>
+        <p class="max-w-7xl mx-auto mt-10 pt-6 border-t border-gray-900 text-sm font-light text-center">&copy; <span data-year>2026</span> ფარდის სახლი. ყველა უფლება დაცულია.</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-[120] hidden flex-col bg-black/95 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="ფოტოს ნახვა">
+        <div class="flex justify-between items-center px-6 py-4 text-gray-400 text-sm">
+            <span id="lightboxCounter"></span>
+            <button id="lightboxClose" aria-label="დახურვა" class="text-white hover:text-brand-red transition-colors p-2">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="lightboxStage" class="flex-1 flex items-center justify-center px-4 md:px-20 pb-8 relative">
+            <button id="lightboxPrev" aria-label="წინა" class="absolute left-2 md:left-6 text-white hover:text-brand-red bg-black/40 hover:bg-black/80 p-3 rounded-full transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <img id="lightboxImg" src="" alt="">
+            <button id="lightboxNext" aria-label="შემდეგი" class="absolute right-2 md:right-6 text-white hover:text-brand-red bg-black/40 hover:bg-black/80 p-3 rounded-full transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Booking Modal (same as home page) -->
+    <div id="bookingModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div id="modalContent" class="relative bg-matte-black border border-gray-800 w-full max-w-lg p-8 md:p-12 shadow-2xl modal-enter rounded-sm">
+            <button onclick="closeModal()" aria-label="დახურვა" class="absolute top-6 right-6 text-gray-500 hover:text-brand-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div id="bookingFormContainer">
+                <h3 class="text-2xl font-serif text-white mb-2">დაჯავშნე კონსულტაცია</h3>
+                <p class="text-gray-400 font-light text-sm mb-8">დაგვიტოვეთ საკონტაქტო ინფორმაცია და ჩვენი დიზაინერი მალე დაგიკავშირდებათ.</p>
+
+                <form id="consultationForm" onsubmit="submitForm(event)" class="space-y-5">
+                    <div>
+                        <label for="f-name" class="block text-sm font-light text-gray-400 mb-1">სახელი და გვარი</label>
+                        <input id="f-name" name="name" type="text" required autocomplete="name" class="w-full border-b border-gray-700 py-2 focus:outline-none focus:border-brand-red transition-colors bg-transparent text-white">
+                    </div>
+                    <div>
+                        <label for="f-phone" class="block text-sm font-light text-gray-400 mb-1">ტელეფონის ნომერი</label>
+                        <input id="f-phone" name="phone" type="tel" required autocomplete="tel" class="w-full border-b border-gray-700 py-2 focus:outline-none focus:border-brand-red transition-colors bg-transparent text-white">
+                    </div>
+                    <div>
+                        <label for="f-service" class="block text-sm font-light text-gray-400 mb-1">რა სერვისით ხართ დაინტერესებული?</label>
+                        <select id="f-service" name="service" class="w-full border-b border-gray-700 py-2 focus:outline-none focus:border-brand-red transition-colors bg-matte-black text-gray-300 font-light">
+                            <option>ფარდების დიზაინი / ზომების აღება</option>
+                            <option>ჟალუზების მონტაჟი</option>
+                            <option>გადასაფარებლები / ბალიშები</option>
+                            <option>კარნიზები / აქსესუარები</option>
+                            <option>ფარდების რეცხვა</option>
+                            <option>სხვა</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-red text-white py-4 mt-6 hover:bg-brand-red-light transition-colors duration-300 tracking-wide uppercase text-sm font-semibold">
+                        გაგზავნა
+                    </button>
+                </form>
+            </div>
+
+            <div id="successMessage" class="hidden text-center py-8">
+                <div class="w-16 h-16 bg-brand-red/10 border border-brand-red/20 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-red">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-2xl font-serif text-white mb-2">მადლობა!</h3>
+                <p class="text-gray-400 font-light">თქვენი მოთხოვნა მიღებულია. ჩვენი გუნდი მალე დაგიკავშირდებათ.</p>
+                <button onclick="closeModal()" class="mt-8 border border-gray-700 text-gray-300 px-8 py-2 hover:bg-brand-red hover:border-brand-red hover:text-white transition-colors">
+                    დახურვა
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/gallery.js"></script>
+    <script src="assets/js/site.js"></script>
+    <script src="assets/js/gallery.js"></script>
+</body>
+</html>
